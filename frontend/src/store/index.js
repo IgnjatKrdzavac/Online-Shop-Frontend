@@ -19,6 +19,23 @@ export default new Vuex.Store({
       state.products = [];
       state.products.push(products);
     },
+    setUser(state, user) {
+      state.user = user;
+      
+    },
+    setUserById(state, user) {
+      state.userById = user;
+      
+    },
+    setToken(state, token) {
+      state.token = token;
+      localStorage.token = token;
+    },
+
+    removeToken(state) {
+      state.token = '';
+      localStorage.token = '';
+    },
   },
   actions: {
 
@@ -34,10 +51,25 @@ export default new Vuex.Store({
     },
 
     register({ commit }, obj) {
-      fetch('http://localhost:8020/korisnici/dodajKorisnika', {
+      fetch('http://localhost:9050/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
+      }).then( res => res.json() )
+        .then( tkn => {
+          if (tkn.msg) {
+            alert(tkn.msg);
+          } else {
+            commit('setToken', tkn.token)
+          }
+        });
+      },
+
+      login({ commit }, obj) {
+        fetch('http://localhost:9050/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(obj)
       }).then( res => res.json() )
         .then( tkn => {
           if (tkn.msg) {

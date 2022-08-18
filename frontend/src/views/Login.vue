@@ -5,8 +5,8 @@
     <div id = "login">
     <b-form @submit="onSubmit">
       <br><br>
-      <b-form-group label="User Name:" label-for="name" >
-        <b-form-input id="name" v-model="form.name" placeholder="Enter username" required></b-form-input>
+      <b-form-group label="Email:" label-for="email" >
+        <b-form-input id="email" v-model="form.email" placeholder="Enter email" required></b-form-input>
       </b-form-group>
 
       <b-form-group label="Password:" label-for="password">
@@ -29,7 +29,7 @@
     data() {
       return {
         form: {
-          name: '',
+          email: '',
           password: ''
         }
       }
@@ -42,7 +42,7 @@
 
       onSubmit(e) {
         e.preventDefault();
-        if(this.form.name.length < 2){
+        if(this.form.email.length < 2){
           alert("Nedovoljan broj reci")
         }
         if(this.form.password.length < 2){

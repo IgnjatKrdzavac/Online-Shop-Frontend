@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 
 var corsOptions = {
-    origin: 'http://localhost:7000',
+    origin: 'http://localhost:8082',
     optionsSuccessStatus: 200
 }
 
@@ -27,6 +27,8 @@ app.post('/register', (req, res) => {
         admin: req.body.admin,
     };
 
+    
+
     Users.create(obj).then( row => {
         
         const usr = {
@@ -44,7 +46,7 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-
+    console.log(req.body);
     Users.findOne({ where: { email: req.body.email } })
         .then( usr => {
 
@@ -53,7 +55,7 @@ app.post('/login', (req, res) => {
                     userId: usr.id,
                     user: usr.email
                 };
-        
+                
                 const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
                 
                 res.json({ token: token });

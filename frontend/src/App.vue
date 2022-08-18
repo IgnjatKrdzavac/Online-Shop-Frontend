@@ -27,16 +27,6 @@
             
             <b-nav-item to="/products" id = "navI">Products</b-nav-item>
 
-            <b-nav-item-dropdown text="Department">
-              <b-dropdown-item
-                v-for="prod in products">
-                {{ prod.name}}
-              </b-dropdown-item>
-            </b-nav-item-dropdown>
-            
-            
-         
-            
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -84,21 +74,22 @@
     },
 
      mounted() {
-      fetch('http://localhost:8020/products/products')
-        .then( obj => obj.json() )
-          .then( res => this.products = res)
+       if (localStorage.token) {
+          this.setToken(localStorage.token);
+        }
 
-        this.fetchProducts();   
+          
           
     },
 
     methods: {
-      
 
-      ...mapActions([
-        'fetchProducts',
-         
+      ...mapMutations([
+        'removeToken',
+        'setToken'
       ]),
+    
+      
      
 
       logout() {
