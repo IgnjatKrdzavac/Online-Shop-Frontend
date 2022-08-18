@@ -25,7 +25,15 @@
           <b-navbar-nav>
             <b-nav-item to="/" id = "navI">Home</b-nav-item>
             
-            <b-nav-item to="/rod" id = "navI">Products</b-nav-item>
+            <b-nav-item to="/products" id = "navI">Products</b-nav-item>
+
+            <b-nav-item-dropdown text="Department">
+              <b-dropdown-item
+                v-for="prod in products">
+                {{ prod.name}}
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+            
             
          
             
@@ -60,7 +68,9 @@
     name: 'App',
 
     data() {
+      
       return {
+        products: null,
         searchQuery: '',
      
       }
@@ -69,29 +79,25 @@
     computed: {
       ...mapState([
         'token',
-        'recensions'
+        
       ])
     },
 
-    mounted() {
-      
-        if (localStorage.token) {
-          this.setToken(localStorage.token);
-        }
+     mounted() {
+      fetch('http://localhost:8020/products/products')
+        .then( obj => obj.json() )
+          .then( res => this.products = res)
 
-       this.fetchRods();
+        this.fetchProducts();   
+          
     },
 
     methods: {
       
 
-      ...mapMutations([
-        'removeToken',
-        'setToken'
-      ]),
       ...mapActions([
-        'fetchRods',
-         'fetchRecension'
+        'fetchProducts',
+         
       ]),
      
 
@@ -99,13 +105,8 @@
         this.removeToken();
       }
       
-    },
-     
-    sockets: {
-      error(err) {
-        alert("AAAAAAAAAAAAAAA");
-      }
     }
+
     
   }
 </script>
