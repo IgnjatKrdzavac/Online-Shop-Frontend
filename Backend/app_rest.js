@@ -7,6 +7,7 @@ const products = require('./routes/products');
 const orders = require('./routes/orders');
 const orderdetails = require('./routes/orderdetails');
 const informations = require('./routes/informations');
+const recensions = require('./routes/recensions');
 
 
 require('dotenv').config();
@@ -26,6 +27,7 @@ app.use('/products', products);
 app.use('/orders', orders);
 app.use('/orderdetails', orderdetails);
 app.use('/informations', informations);
+app.use('/recensions', recensions);
 
 
 

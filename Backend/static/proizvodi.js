@@ -30,6 +30,7 @@ function init() {
             weight :  document.getElementById('prodWeight').value,
             shortDesc :  document.getElementById('prodDescription').value,
             sku  : document.getElementById('prodSku').value,
+            image  : document.getElementById('prodImage').value
             
         };
         
@@ -41,6 +42,7 @@ function init() {
         document.getElementById('prodWeight').value = '';
         document.getElementById('prodDescription').value = '';
         document.getElementById('prodSku').value = '';
+        document.getElementById('prodImage').value = '';
 
         
         fetch('http://localhost:7000/admin/products', {

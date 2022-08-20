@@ -25,7 +25,7 @@ route.get('/products/:id', (req, res) => {
 
 route.post('/products', (req, res) => {
     
-    Products.create({name: req.body.name, price: req.body.price, weight: req.body.weight, shortDesc: req.body.shortDesc, sku: req.body.sku, userId: req.user.userId })
+    Products.create({name: req.body.name, price: req.body.price, weight: req.body.weight, shortDesc: req.body.shortDesc, sku: req.body.sku, image: req.body.image, userId: req.user.userId })
         .then( rows => res.json(rows) )
         .catch( err => res.status(500).json(err) );
 
@@ -56,6 +56,7 @@ route.put('/products/:id', (req, res) => {
             prod.weight = req.body.weight;
             prod.shortDesc = req.body.shortDesc;
             prod.sku = req.body.sku;
+            prod.image = req.body.image;
             prod.userId = req.user.userId;
 
             prod.save()

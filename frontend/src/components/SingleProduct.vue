@@ -8,7 +8,7 @@
     >
 
   
-   
+   <b-img v-bind:src="prod.image" fluid alt="Fluid image" ></b-img>
 
     <b-card-text >
       <b>Name: </b> {{ prod.name }} 
