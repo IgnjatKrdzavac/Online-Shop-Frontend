@@ -8,7 +8,6 @@ const prodRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 const orderDetRoutes = require('./routes/orderdetails');
 const infoRoutes = require('./routes/informations');
-const history = require('connect-history-api-fallback');
 const http = require('http');
 
 
@@ -122,13 +121,10 @@ io.on('connection', socket => {
     socket.on('error', err => socket.emit('error', err.message) );
 });
 
-const staticMdl = express.static(path.join(__dirname, 'dist'));
 
-app.use(staticMdl);
+app.use(express.static(path.join(__dirname, 'static')));
 
-app.use(history({ index: '/index.html' }));
 
-app.use(staticMdl);
 
 
 
