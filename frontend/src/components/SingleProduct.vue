@@ -19,11 +19,11 @@
      
     </b-card-text>
     
-    <b-button v-if="token" variant="info " id= "btn" @click="modalShow = !modalShow">Buy  Rod</b-button>
+    <b-button v-if="token" variant="info " id= "btn" @click="modalShow = !modalShow">Buy Product</b-button>
     <b-button  @click="showProduct(prod.id)" variant="info " id= "btn">Show Product</b-button>
 
     
-    <b-modal v-model="modalShow" title="Confirmation of the purchase of the rod" size="xl" header-bg-variant="info" header-text-variant="light">
+    <b-modal v-model="modalShow" title="Confirmation of the purchase of the product" size="xl" header-bg-variant="info" header-text-variant="light">
       
       
       <template #modal-footer>
@@ -68,7 +68,10 @@
     ,
      methods: {
       
-      
+      showProduct(productId) {
+          this.$router.push({ name: 'SingleItemView', params: { id: productId } });
+          console.log(productId);
+      }
     }
     
   }

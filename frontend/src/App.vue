@@ -94,7 +94,9 @@
 
       logout() {
         this.removeToken();
-      }
+      },
+
+     
       
     }
 

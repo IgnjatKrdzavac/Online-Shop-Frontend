@@ -1,11 +1,15 @@
 const express = require('express');
-const { sequelize } = require('./models');
+const { sequelize, users, recensions} = require('./models');
+const { Server } = require("socket.io");
+const cors = require('cors');
 
 const usrRoutes = require('./routes/users');
 const prodRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 const orderDetRoutes = require('./routes/orderdetails');
 const infoRoutes = require('./routes/informations');
+const http = require('http');
+
 
 const path = require('path');
 
@@ -13,6 +17,27 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const app = express();
+
+
+const server = http.createServer(app);
+
+
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:8080',
+        methods: ['GET', 'POST'],
+        credentials: true
+    },
+    allowEIO3: true
+});
+
+var corsOptions = {
+    origin: 'http://localhost:8080',
+    optionsSuccessStatus: 200,
+    credentials: true
+}
+
+app.use(cors(corsOptions));
 
 app.use('/admin', usrRoutes);
 app.use('/admin', prodRoutes);
@@ -51,6 +76,9 @@ function authToken(req, res, next) {
     });
 }
 
+
+
+
 app.get('/register', (req, res) => {
     res.sendFile('register.html', { root: './static' });
 });
@@ -63,9 +91,42 @@ app.get('/', authToken, (req, res) => {
     res.sendFile('mainPage.html', { root: './static' });
 });
 
+
+function authSocket(msg, next) {
+    if (msg[1].token == null) {
+        next(new Error("Not authenticated"));
+    } else {
+        jwt.verify(msg[1].token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                next(new Error(err));
+            } else {
+                msg[1].user = user;
+                next();
+            }
+        });
+    }
+}
+
+
+io.on('connection', socket => {
+    //socket.use(authSocket);
+    
+    socket.on('rec', msg => {
+        recensions.create(msg)
+            .then( rows => {
+                io.emit('rec', JSON.stringify(rows))
+            }).catch( err => res.status(500).json(err) );
+    });
+
+    socket.on('error', err => socket.emit('error', err.message) );
+});
+
 app.use(express.static(path.join(__dirname, 'static')));
 
-app.listen({ port: 7000 }, async () => {
+
+
+
+server.listen({ port: process.env.PORT || 7000 }, async () => {
     await sequelize.authenticate();
     console.log("Server started");
 });

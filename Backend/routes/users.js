@@ -8,7 +8,7 @@ route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 
 
-function authToken(req, res, next) {
+/*function authToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
   
@@ -24,7 +24,7 @@ function authToken(req, res, next) {
     });
 }
 
-route.use(authToken);
+route.use(authToken);*/
 
 
 route.get('/users', (req, res) => {
@@ -79,6 +79,27 @@ route.put('/users/:id', (req, res) => {
     .catch( err => res.status(500).json(err) );
 
 });
+
+
+route.post('/getUser', (req, res) => {
+   
+    let usr = null;
+    jwt.verify(req.body.token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        
+        usr = user.userId ;
+    
+    });
+    
+    Users.findOne({ where: { id: usr} })
+        .then( rows => res.json(rows) )
+        .catch( err => res.status(500).json("Uneti id ne postoji u bazi podataka!") );
+ });
+ route.post('/getUserById', (req, res) => {
+    console.log(req.body);
+    Users.findOne({ where: { id: req.body.id} })
+        .then( rows => res.json(rows) )
+        .catch( err => res.status(500).json("Uneti id ne postoji u bazi podataka!") );
+ });
 
 
 /*route.post('/orderdetails', (req, res) => {
