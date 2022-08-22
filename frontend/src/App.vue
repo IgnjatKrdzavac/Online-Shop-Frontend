@@ -30,7 +30,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item v-if="token" to="/acc">Accoount</b-nav-item>
+            <b-nav-item v-if="token" to="/acc">Account</b-nav-item>
           
 
             <b-nav-item v-if="!token" to="/register" id = "navI">Register</b-nav-item>

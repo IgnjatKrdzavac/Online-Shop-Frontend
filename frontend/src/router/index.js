@@ -5,6 +5,7 @@ import Register from '@/views/Register.vue';
 import Login from '@/views/Login.vue';
 import Products from '@/views/Products.vue';
 import SingleItemView from '@/views/SingleItemView.vue';
+import  Acc from '@/views/Acc.vue';
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/products',
     name: 'Products',
     component: Products
+  },
+  {
+    path: '/acc',
+    name: 'Acc',
+    component: Acc
   },
   {
     path: '/singleItem:id',
